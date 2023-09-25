@@ -1,0 +1,250 @@
+---
+title: "Employee Survey Analysis"
+author: "Akansha Gupta"
+date: "2023-09-23"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+# Create a dataframe from the imported data
+```{r dataframe}
+library(readxl)
+Typical_Employee_Survey_Data_2_ <- read_excel("C:/Users/ag2183/Downloads/Typical_Employee_Survey_Data (2).xlsx", col_names = FALSE)
+View(Typical_Employee_Survey_Data_2_)
+
+Mdataf <- data.frame(Typical_Employee_Survey_Data_2_)
+Mdataf
+
+##Add Header Row: assign and add relevant column names to each column
+colnames(Mdataf) <- c("Age" , "Gender", "Job_Satisfaction", "Job_Preference", "Tenure", "Promotion_Likelihood", "Work_Autonomy", "Budget_Participation", "Organization_Pride", "Job_Loyalty", "Coworker_Relations")
+Mdataf
+
+## Display the 5-point summary for each column
+summary_stats <- summary(Mdataf)
+
+# Print 5-point summary
+cat("5-Point Summary for Numerical Columns:\n")
+print(summary_stats)
+
+
+summary_values1 <- fivenum(Mdataf$Age)
+summary(summary_values1)
+
+summary_values2 <- fivenum(Mdataf$Gender)
+summary(summary_values2)
+
+summary_values3 <- fivenum(Mdataf$Job_Satisfaction)
+summary(summary_values3)
+
+summary_values4 <- fivenum(Mdataf$Job_Preference)
+summary(summary_values4)
+
+summary_values5 <- fivenum(Mdataf$Tenure)
+summary(summary_values5)
+
+summary_values6 <- fivenum(Mdataf$Promotion_Likelihood)
+summary(summary_values6)
+
+summary_values7 <- fivenum(Mdataf$Work_Autonomy)
+summary(summary_values7)
+
+summary_values8 <- fivenum(Mdataf$Budget_Participation)
+summary(summary_values8)
+
+summary_values9 <- fivenum(Mdataf$Organization_Pride)
+summary(summary_values9)
+
+summary_values10 <- fivenum(Mdataf$Job_Loyalty)
+summary(summary_values10)
+
+summary_values11 <- fivenum(Mdataf$Coworker_Relations)
+summary(summary_values11)
+
+##Create the boxplot for numerical columns
+
+# Adjust the width and height as needed
+windows(width = 10, height = 6)  
+
+# Create a boxplot for the "Age" column
+boxplot(Mdataf$Age, main="Boxplot for Age", ylab="Age", col="lightblue")
+
+# Create a boxplot for the "Tenure" column
+boxplot(Mdataf$Tenure, main="Boxplot for Tenure", ylab="Tenure (Years)", col="lightgreen")
+
+## Convert the columns that need to be converted to Factors
+
+Mdataf$Gender <- as.factor(Mdataf$Gender)
+class(Mdataf$Gender)
+
+Mdataf$Job_Satisfaction <- as.factor(Mdataf$Job_Satisfaction)
+class(Mdataf$Job_Satisfaction)
+
+Mdataf$Job_Preference <- as.factor(Mdataf$Job_Preference)
+class(Mdataf$Job_Preference)
+
+Mdataf$Promotion_Likelihood <- as.factor(Mdataf$Promotion_Likelihood)
+class(Mdataf$Promotion_Likelihood)
+
+Mdataf$Promotion_Likelihood <- as.factor(Mdataf$Work_Autonomy)
+class(Mdataf$Work_Autonomy)
+
+Mdataf$Budget_Participation <- as.factor(Mdataf$Budget_Participation)
+class(Mdataf$Budget_Participation)
+
+Mdataf$Organization_Pride <- as.factor(Mdataf$Organization_Pride)
+class(Mdataf$Organization_Pride)
+
+Mdataf$Job_Loyalty <- as.factor(Mdataf$Job_Loyalty)
+class(Mdataf$Job_Loyalty)
+
+Mdataf$Coworker_Relations <- as.factor(Mdataf$Coworker_Relations)
+class(Mdataf$Coworker_Relations)
+
+str(Mdataf)
+
+## Plot the right visual for each column
+
+
+# 1 Create a histogram for 'AGE' column with the mean and median marked
+
+hist(Mdataf$Age, main = "Age Distribution", xlab = "Age")
+abline(v = mean(Mdataf$Age), col = "red", lwd = 2)  # Mark the mean with a red line
+abline(v = median(Mdataf$Age), col = "blue", lwd = 2) # Mark the median with a blue line
+mean(Mdataf$Age)
+median(Mdataf$Age)
+
+
+# 2 Create a bar chart for the "Gender" column
+
+gender_colors <- c("blue", "pink")
+barplot(table(Mdataf$Gender), main = "Gender Distribution", xlab = "Gender", ylab = "Frequency", col = gender_colors, names.arg = c("Male", "Female") 
+)
+
+# 3 Create a barplot for the "Job_Satisfaction" column
+
+barplot(table(Mdataf$Job_Satisfaction),
+main = "Job Satisfaction Distribution",
+xlab = "Satisfaction Level",
+ylab = "Frequency", col = 'lightblue',
+names.arg = c("Very Satisfied", "Moderately Satisfied", "A Little Dissatisfied", "Very Dissatisfied"))
+
+# 4 Create a bar chart for the "Job_Preference" column
+
+barplot(table(Mdataf$Job_Preference), main = "Job Preference Distribution", xlab = "Job_Preference", ylab = "Frequency", col = 'red', names.arg = c("High Income", "No Danger of Being Fired", "Flexible Hours", "Opportunities for Advancement", "Enjoying the Work"))
+
+# 5 Create a histogram for the "Tenure" column
+
+hist(Mdataf$Tenure, main = "Tenure Distribution", xlab = "Tenure (Years)", col = 'lightpink')
+median_value <- median(Mdataf$Tenure)
+mean_value <- mean(Mdataf$Tenure)
+
+# Add lines for median and mean
+abline(v = median_value, col = "red", lwd = 2, lty = 2, label = "Median")
+abline(v = mean_value, col = "blue", lwd = 2, lty = 2, label = "Mean")
+
+
+
+# 6 Create a bar plot for the "Promotion_Likelihood" column
+
+# Define custom level labels
+custom_labels <- c("1 Very Likely", "2 Likely", "3 Not Sure", "4 Unlikely", "5 Very Unlikely")
+
+# Create a factor with custom labels
+Mdataf$Promotion_Likelihood <- factor(Mdataf$Promotion_Likelihood, levels = 1:5, labels = custom_labels)
+
+barplot(table(Mdataf$Promotion_Likelihood), main = "Promotion Likelihood Distribution", xlab = "Promotion Likelihood", ylab = "Frequency", col = 'purple')
+
+# 7 Consider the bar plot to display the distribution of 'work autonomy' column
+
+barplot(table(Mdataf$Work_Autonomy), main = "Work Autonomy Distribution", xlab = "Work_Autonomy", ylab = "Frequency", names.arg = c("Always", "Much of the Time", "Sometimes", "Never"), col = 'blue')
+
+# 8 Create the pie chart and bar plot to show the proportion of employees who participate in budgetary decisions(Yes) relative to those who do not (No)
+
+part_freq <- table(Mdataf$Budget_Participation)
+pie(part_freq, main = "Budget Participation Distribution", labels = c("Yes", "No"), col = c("blue", "red"))
+
+ # Create a bar chart for the "Budget_Participation" column
+ barplot(table(Mdataf$Budget_Participation), main = "Budget Participation Distribution", xlab = "Budget Participation (1 = Yes, 2 = No)", col = 'orange')
+ 
+# 9 Create the bar plot to display the distribution of level of employees' pride in working for their organization
+
+barplot(table(Mdataf$Organization_Pride), main = "Organization Pride Distribution", xlab = "Pride Level", ylab = "Frequency", names.arg = c("Very Proud", "Somewhat Proud", "Indifferent", "Not At All Proud"), col = 'yellow')
+
+# 10 Create the bar plot to show the distribution of job loyalty levels
+
+barplot(table(Mdataf$Job_Loyalty), main = "Job Loyalty Distribution", xlab = "Loyalty Level", ylab = "Frequency", names.arg = c("Very Likely", "Likely", "Not Sure", "Unlikely", "Very Unlikely"), col = 'pink')
+
+
+#Create the box plot to summarize the distribution of job loyalty levels highlighting the information about the median, quartiles, and potential outliers
+
+Mdataf$Job_Loyalty <- ordered(Mdataf$Job_Loyalty, levels = c(1, 2, 3, 4, 5), labels = c("Very Likely", "Likely", "Not Sure", "Unlikely", "Very Unlikely"))
+boxplot(Mdataf$Age ~ Mdataf$Job_Loyalty, main = "Job Loyalty Distribution", xlab = "Loyalty Level", ylab = "Age", col = 'green')
+
+# 11 Create the  barplot distribution of 'workplace relations' column with values ranging from 1 (Very Good) to 5 (Very Bad) 
+
+# Define custom level labels
+custom_lab <- c("Very Good", "Good", "So So", "Bad", "Very Bad")
+
+# Create a factor with custom labels
+Mdataf$Coworker_Relations <- factor(Mdataf$Coworker_Relations, levels = 1:5, labels = custom_lab)
+
+barplot(table(Mdataf$Coworker_Relations), main = "Workplace Relations b/w Coworkers and Colleagues", xlab = "Coworker_Relations", ylab = "Frequency", col = 'lightpink')
+
+##Plot scatter plots to show few relationships
+
+library(ggplot2)
+
+# Scatter plot 1: Age vs. Promotion_Likelihood: This can reveal if there's an age-related pattern in promotion expectations
+
+ggplot(Mdataf, aes(x = Age, y = Promotion_Likelihood)) + geom_point() + geom_smooth(method = "lm", color = "blue", se = FALSE) + labs(title = "Scatter Plot of Age vs. Promotion Likelihood with Regression Line", x = "Age", y = "Promotion Likelihood")
+
+# Scatter plot 2: Create a scatter plot showing the relationship between "Age" and "Tenure" 
+ggplot(Mdataf, aes(x = Age, y = Tenure)) +
+  geom_point() +
+  geom_smooth(method = "lm", color = "blue", se = FALSE) +
+  labs(title = "Scatter Plot of Age vs. Tenure with Regression Line",
+       x = "Age",
+       y = "Tenure")
+
+# Scatter lot 3 : showing the relationship between "Age" and "Job Satisfaction" 
+
+ggplot(Mdataf, aes(x = Age, y = Job_Satisfaction)) +
+  geom_point() +
+  geom_smooth(method = "lm", color = "blue", se = FALSE) +
+  labs(title = "Scatter Plot of Age vs. Job Satisfaction with Regression Line",
+       x = "Age",
+       y = "Job Satisfaction")
+       
+# Scatter plot 4 : Scatter Plot of Tenure vs. Job Satisfaction   
+
+ggplot(Mdataf, aes(x = Tenure, y = Job_Satisfaction)) + geom_point() + geom_smooth(method = "lm", color = "blue", se = FALSE) + labs(title = "Scatter Plot of Tenure vs. Job Satisfaction with Regression Line", x = "Tenure", y = "Job Satisfaction")
+
+# Scatter plot 5: Scatter Plot of Age vs. Promotion Likelihood
+
+ggplot(Mdataf, aes(x = Age, y = Promotion_Likelihood)) + geom_point() + geom_smooth(method = "lm", color = "blue", se = FALSE) + labs(title = "Scatter Plot of Age vs. Promotion Likelihood with Regression Line", x = "Age", y = "Promotion Likelihood")
+
+       
+# Scatter plot 6: Scatter Plot of Tenure vs. Promotion Likelihood by Gender
+
+ggplot(Mdataf, aes(x = Tenure, y = Promotion_Likelihood, color = Gender)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE) +
+  labs(title = "Scatter Plot of Tenure vs. Promotion Likelihood by Gender",
+       x = "Tenure",
+       y = "Promotion Likelihood") +
+  scale_color_manual(values = c("1" = "blue", "2" = "red"), name = "Gender") +
+  theme_minimal()
+
+        
+# Scatter plot 7: Scatter Plot of Tenure vs. Age by Gender
+
+ggplot(Mdataf, aes(x = Tenure, y = Age, color = Gender)) + geom_point() + geom_smooth(method = "lm", se = FALSE) + labs(title = "Scatter Plot of Tenure vs. Age by Gender", x = "Tenure", y = "Age") +
+  scale_color_manual(values = c("1" = "blue", "2" = "red"), name = "Gender") +
+  theme_minimal()
+
+
+```
+
+
